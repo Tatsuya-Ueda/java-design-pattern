@@ -1,3 +1,14 @@
+"""
+Compositeパターン
+・容器と中身を同一視して再帰的な構造を作るパターン
+・Entryを継承しているDirectoryクラスが，Entryをリストで持つことができる部分がミソ(つまり再帰)
+・BNF記法で解釈するなら
+<Entry>::=<File>|<Directory>
+<Directory>::={<Entry>}
+だろうか
+・Entryクラスは抽象基底クラスに見えて，実装を含むためmixinであるともいえる
+"""
+
 from abc import ABC
 from abc import abstractmethod
 from typing import List
@@ -52,9 +63,9 @@ class Directory(Entry):
         return self.__name
     @property
     def size(self) -> int:
-        return sum([e.size for e in self.__directory])
+        return sum(e.size for e in self.__directory)
 
-    def print_list(self, prefix: str = ""):
+    def print_list(self, prefix: str = ""): # Directory以下のEntryについて再帰的に表示
         print(prefix + "/" + self)
         for e in self.__directory:
             e.print_list(prefix + "/" + self.name)
