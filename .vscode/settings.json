@@ -12,4 +12,7 @@
     "[python]": {
         "editor.defaultFormatter": null, // Prettier を使わないようにする
     },
+    // 👺👺👺 disable pylance
+    // なんか変数に色がつかなくなるからやめた
+    // "python.languageServer": "None"
 }
