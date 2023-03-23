@@ -1,0 +1,15 @@
+{ // 👺👺👺 format using black
+    "python.formatting.provider": "black",
+    "python.formatting.blackPath": "black", // 仮想環境で，blackコマンドが自動的にblackのバイナリと紐づいているのでこれでOK
+    "editor.formatOnPaste": false,
+    "editor.formatOnSave": true,
+    // 👺👺👺 lint using flake8
+    "python.linting.enabled": true,
+    "python.linting.pylintEnabled": false,
+    "python.linting.flake8Enabled": true,
+    "python.linting.flake8Path": "flake8",
+    "python.linting.lintOnSave": true,
+    "[python]": {
+        "editor.defaultFormatter": null, // Prettier を使わないようにする
+    },
+}
