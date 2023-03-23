@@ -1,6 +1,5 @@
 """
 Adapterパターン(継承を使った例)
-・適合される，adapteeの役を持つのがBanner，
 """
 
 from abc import ABC, abstractmethod

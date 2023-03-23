@@ -1,6 +1,5 @@
 """
-Adapterパターン(継承を使った例)
-・適合される，adapteeの役を持つのがBanner，
+Adapterパターン(移譲を使った例)
 """
 
 from abc import ABC, abstractmethod
@@ -17,7 +16,7 @@ class Banner:
         print("*{}*".format(self.__string))
 
 
-class Print(ABC):  # interface
+class Print(ABC):
     @abstractmethod
     def print_weak(self) -> None:
         pass
@@ -27,17 +26,17 @@ class Print(ABC):  # interface
         pass
 
 
-class PrintBanner(Banner, Print):  # implements Print
+class PrintBanner(Print):
     def __init__(self, string: str) -> None:
-        super().__init__(string)
+        self.__banner = Banner(string)
 
     # @override
     def print_weak(self) -> None:
-        self.show_with_paren()
+        self.__banner.show_with_paren()
 
     # @override
     def print_strong(self) -> None:
-        self.show_with_aster()
+        self.__banner.show_with_aster()
 
 
 class Main:
