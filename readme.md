@@ -13,3 +13,10 @@
  - poetry shellを実行した状態，つまり.venvの環境に入っている場合，blackやflake8がコマンドとして使える状態になっているため，settings.jsonのblackpathは"black"，flake8pathは"flake8"でOK．フルパス指定しなくてよい
 
 おわり
+
+# 各種ファイルについて
+
+ - .python-version ... pyenvが今いるディレクトリでどのPython環境を起動させるかを判断するためのファイル
+ - pyproject.toml ... poetryがインストールしたパッケージのメモ．これを別プロジェクトに移植すれば，poetry installするだけで自動的にまったく同じ仮想環境を作ってくれる
+ - poetry.lock ... poetryがインストールしたパッケージと，その依存関係が書かれたファイル(編集厳禁)
+ - .venv ... poetry shellを実行することで入れる仮想環境
