@@ -3,7 +3,7 @@
 # 環境構築
 
  - poetryの要求に合う(?)任意VerのPythonをインストールする．MS Store版Pythonはwhere pythonでパスを確認しながらの作業が増えたり，この後インストールするアプリのインストール場所が変わったりして大変になるので，python.orgからを推奨．
- - poetryをインストールする．Pathを通すのを忘れないように．.venvが作成されるように等，設定をする．
+ - poetryをインストールする．Pathを通すのを忘れないように．.venvが作成されるように等，設定をする．(こうするとvscodeが勝手に認識して仮想環境を起動してくれる)
  - pyenv-winをインストールする．
  - pyenvを使って任意VerのPythonをインストール．ここのPythonのバージョンは，3.7以上でないと，poetryが正しく動かない．(Poetryのドキュメントに書いてある「3.7+」がそう)
  - poetry initを実行して，Pythonのバージョンだけ指定したpyproject.tomlを作る
