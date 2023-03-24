@@ -8,7 +8,7 @@
 class Singleton(object):
     def __new__(cls, *args, **kwargs):  # 継承先クラスがclsに入る
         if not hasattr(cls, "_instance"):  # 継承先クラスで__instanceが定義されているなら
-            cls._instance = super().__new__(cls)
+            cls._instance = super().__new__(cls)  # ここ意味不明
         return cls._instance
 
 
