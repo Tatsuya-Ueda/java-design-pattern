@@ -1,6 +1,9 @@
 """
 Adapterパターン(移譲を使った例)
+・こちらの例でも結局，Printを用意している．(こちらはinterfaceではなくabstract Printではあるが)
+・Adapteeのメソッドへのアクセス制限を行いたいなら委譲．Adapter側で定義されなければ呼び出されないため．
 """
+
 
 from abc import ABC, abstractmethod
 
