@@ -11,6 +11,7 @@ Adapterパターン(継承を使った例)
 from abc import ABC, abstractmethod
 
 
+# Adaptee
 class Banner:
     def __init__(self, string: str) -> None:
         self.__string: str = string
@@ -22,6 +23,7 @@ class Banner:
         print("*{}*".format(self.__string))
 
 
+# Target of adaptation
 class Print(ABC):  # interface
     @abstractmethod
     def print_weak(self) -> None:
@@ -32,6 +34,7 @@ class Print(ABC):  # interface
         pass
 
 
+# Adapter
 class PrintBanner(Banner, Print):  # implements Print
     def __init__(self, string: str) -> None:
         super().__init__(string)
