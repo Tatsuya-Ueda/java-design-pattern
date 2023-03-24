@@ -1,6 +1,12 @@
 """
 Adapterパターン(継承を使った例)
+・interface Print(APIのひな形となるインターフェース)を用意して，実装したいAPI(Adapt，適応させた後のクラス)でimplementsし
+  ，実際に実装する，という二段階になっている
+・継承ではAdapteeのメソッドを何もせず使うことができるが，委譲ではAdapteeのインスタンスを使っていちいちAdapter側のメソッドを
+  定義する必要が出てくる．トレードオフの関係にありそう．
+・interfaceいらないのでは？Adapt後のクラスだけ用意すればよいのでは？と思ってしまった．
 """
+
 
 from abc import ABC, abstractmethod
 
