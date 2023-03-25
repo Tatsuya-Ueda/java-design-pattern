@@ -1,6 +1,11 @@
 """
 Factory Methodパターン
 ・注：テキストではパッケージ分けを行っているが，ここではデザインパターンの学習のため一つのファイルに収める
+・インスタンスの作り方をスーパークラスで定義しておき，インスタンスの生成はサブクラスに任せてしまうパターン
+  ・Virtual Constructorとも呼ばれる
+・難しい！
+・「Template Methodをオブジェクト生成の場面に適応させた」パターン
+  https://qiita.com/shoheiyokoyama/items/d752834a6a2e208b90ca
 """
 
 from abc import ABC, abstractmethod
