@@ -2,6 +2,7 @@
 Strategyパターン
 
 ・よもやまだが，Javaでは，int型のインスタンス変数は，0で初期化される．
+・三すくみの勝ち負けの計算は，「1ずらして3の余りをとる」がカギ
 """
 
 from enum import Enum
@@ -14,6 +15,20 @@ class Hand(Enum):
     ROCK = 0
     SCISSOR = 1
     PAPER = 2
+
+    def is_stronger_than(self, h: "Hand") -> bool:
+        return self.__fight(h) == 1
+
+    def is_weaker_than(self, h: "Hand") -> bool:
+        return self.__fight(h) == -1
+
+    def __fight(self, h: "Hand") -> int:
+        if self.value == h.value:
+            return 0
+        elif (self.value + 1) % 3 == h.value:
+            return 1
+        else:
+            return -1
 
 
 class Player:
@@ -41,7 +56,6 @@ class Player:
     def even(self):
         self.__gamecount += 1
 
-    # @override
     def to_string(self):
         return "[{}:{}games, {}win, {}lose]".format(
             self.__name, self.__gamecount, self.__wincount, self.__losecount
@@ -50,10 +64,11 @@ class Player:
 
 class Strategy(ABC):
     @abstractmethod
-    def next_hand(self):
+    def next_hand(self) -> Hand:
         pass
 
-    def study(self, win: bool):
+    @abstractmethod
+    def study(self, win: bool) -> None:
         pass
 
 
@@ -65,7 +80,8 @@ class ProbStrategy(Strategy):
         self.__history = [[1, 1, 1, ], [1, 1, 1, ], [1, 1, 1, ], ]
         # fmt:on
 
-    def next_hand(self):
+    # @override
+    def next_hand(self) -> Hand:
         second_table = self.__history[self.__current_hand.value]
         bet = random.randint(0, sum(second_table))
         if bet < second_table[0]:
@@ -76,64 +92,60 @@ class ProbStrategy(Strategy):
             hand_value = 2
         self.__prev_hand = self.__current_hand
         self.__current_hand = Hand(hand_value)
-        return self.__current_hand
+        return Hand(hand_value)
 
     # @override
-    def study(self, win: bool):
-        pre = self.__prev_hand.value
-        cur = self.__current_hand.value
+    def study(self, win: bool) -> None:
+        pval = self.__prev_hand.value
+        cval = self.__current_hand.value
         if win:
-            self.__history[pre][cur] += 1
+            self.__history[pval][cval] += 1
         else:
-            self.__history[pre][(cur + 1) % 3] += 1
-            self.__history[pre][(cur + 1) % 3] += 1
+            self.__history[pval][(cval + 1) % 3] += 1
+            self.__history[pval][(cval + 1) % 3] += 1
 
 
-# public class ProbStrategy implements Strategy {
-#     private Random random;
-#     private int prevHandValue = 0;
-#     private int currentHandValue = 0;
-#     private int[][] history = {
-#         { 1, 1, 1, },
-#         { 1, 1, 1, },
-#         { 1, 1, 1, },
-#     };
+class WinningStrategy(Strategy):
+    def __init__(self) -> None:
+        self.won: bool = False
+        self.prev_hand: Hand = None
 
-#     public ProbStrategy(int seed) {
-#         random = new Random(seed);
-#     }
+    # @override
+    # 今のロジックなら，self.won = Falseで初期化されていれば，Noneが返されることはない. 一応assertする
+    def next_hand(self) -> Hand:
+        if not self.won:
+            self.prev_hand = Hand(random.randrange(3))
+        assert isinstance(self.prev_hand, Hand)
+        return self.prev_hand
 
-#     @Override
-#     public Hand nextHand() {
-#         int bet = random.nextInt(getSum(currentHandValue));
-#         int handvalue = 0;
-#         if (bet < history[currentHandValue][0]) {
-#             handvalue = 0;
-#         } else if (bet < history[currentHandValue][0] + history[currentHandValue][1]) {
-#             handvalue = 1;
-#         } else {
-#             handvalue = 2;
-#         }
-#         prevHandValue = currentHandValue;
-#         currentHandValue = handvalue;
-#         return Hand.getHand(handvalue);
-#     }
+    # @override
 
-#     private int getSum(int handvalue) {
-#         int sum = 0;
-#         for (int i = 0; i < 3; i++) {
-#             sum += history[handvalue][i];
-#         }
-#         return sum;
-#     }
+    def study(self, win: bool) -> None:
+        self.won = win
 
-#     @Override
-#     public void study(boolean win) {
-#         if (win) {
-#             history[prevHandValue][currentHandValue]++;
-#         } else {
-#             history[prevHandValue][(currentHandValue + 1) % 3]++;
-#             history[prevHandValue][(currentHandValue + 2) % 3]++;
-#         }
-#     }
-# }
+
+class Main:
+    def __init__(self) -> None:  # Javaのmain関数を模して，これをmainとする
+        player1: Player = Player("Taro", WinningStrategy())
+        player2: Player = Player("Hana", ProbStrategy())
+        for _ in range(10000):
+            next_hand1 = player1.next_hand()
+            next_hand2 = player2.next_hand()
+            if next_hand1.is_stronger_than(next_hand2):
+                print("Winner:{}".format(player1.to_string()))
+                player1.win()
+                player2.lose()
+            elif next_hand2.is_stronger_than(next_hand1):
+                print("Winner:{}".format(player2.to_string()))
+                player1.lose()
+                player2.win()
+            else:
+                print("Even...")
+                player1.even()
+                player2.even()
+        print("Total result:")
+        print(player1.to_string())
+        print(player2.to_string())
+
+
+Main()

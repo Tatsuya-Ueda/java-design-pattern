@@ -12,6 +12,9 @@ class Role(Enum):
     SCISSOR = 1
     PAPER = 2
 
+    def f(self):
+        print(self)
+
 
 print(Role.PAPER)
 print(Role(0))
@@ -20,5 +23,5 @@ print(Role(0).name)  # value to member
 print(Role.PAPER.value)
 print(Role["PAPER"])  # キーでもOK
 # print(Role.PAPER < Role.SCISSOR)  # 順序は定義されていない．valueを取り出すのがよいかも
-
-[1, 2, 3][Role.PAPER]
+Role.PAPER.f()
+print(isinstance(Role.PAPER, Role))
