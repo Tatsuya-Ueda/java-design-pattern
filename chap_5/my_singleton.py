@@ -7,7 +7,7 @@
 
 class Singleton:
     # クラス変数
-    __instance = None
+    __singleton: None | "Singleton" = None
 
     # 2回を超えてコンストラクタを呼び出せない
     def __init__(self) -> None:
@@ -16,15 +16,15 @@ class Singleton:
 
         # インスタンスをクラス変数に登録
         assert (
-            self.__class__.__instance is None
+            self.__class__.__singleton is None
         ), "Singleton class but its constructor called twice"
-        self.__class__.__instance = self
+        self.__class__.__singleton = self
 
     # コンストラクタを1回呼び出すまでに実行できない
     @classmethod
     def get_instance(cls) -> "Singleton":
         assert cls is not None
-        return cls.__instance
+        return cls.__singleton
 
 
 class Main:
